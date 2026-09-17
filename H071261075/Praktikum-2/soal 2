@@ -1,0 +1,14 @@
+jarak = int(input("Masukkan jarak pengiriman (km): "))
+express = input("Layanan Express (ya/tidak): ").capitalize()
+
+if jarak < 5:
+    tarif = 10000
+elif jarak <= 20:
+    tarif = 20000
+else:
+    tarif = 35000
+
+layanan_express = 15000 if express == "Ya" else 0
+
+tarif_total = tarif + layanan_express
+print("Total tarif pengiriman: Rp", tarif_total)

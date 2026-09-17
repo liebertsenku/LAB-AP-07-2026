@@ -1,0 +1,12 @@
+nilai_tes = int(input("Masukkan Nilai Tes: "))
+if nilai_tes >= 80 and nilai_tes <=100:
+    print("Lolos ke Tahap Wawancara")
+elif nilai_tes >= 65 and nilai_tes <=100:
+    pengalaman = float(input("Masukkan pengalaman kerja (tahun): "))
+    if pengalaman >= 2:
+        print("Lolos Bersyarat")
+    else:
+        print("Tidak Lolos")
+        
+else:
+    print("Tidak Lolos")    
