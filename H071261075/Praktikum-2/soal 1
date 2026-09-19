@@ -1,0 +1,11 @@
+lv_pedas = int(input("Masukkan persentase lv pedas:" ))
+if lv_pedas >= 0 and lv_pedas <= 10:
+    print("level aman")
+elif lv_pedas >= 11 and lv_pedas <= 40:
+    print("level sedang")
+elif lv_pedas >= 41 and lv_pedas <= 70:
+    print("level pedas")
+elif lv_pedas >= 71 and lv_pedas <= 100:
+    print("level ekstrem")
+else:
+    print("invalid")
