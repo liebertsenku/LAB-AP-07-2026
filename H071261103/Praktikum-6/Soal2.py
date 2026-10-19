@@ -1,0 +1,132 @@
+kandidat_set = set()
+rekap_suara = {}
+
+
+def daftar_kandidat(kandidat_set, nama):
+    nama = nama.capitalize()
+    if not all(kata.isalpha() for kata in nama.split()):
+        print("Nama kandidat hanya boleh berisi huruf!")
+    elif nama in kandidat_set:
+        print(f"Kandidat '{nama}' sudah terdaftar.")
+    else:
+        kandidat_set.add(nama)
+        print(f"'{nama}' berhasil didaftarkan sebagai kandidat!")
+
+
+def berikan_suara(rekap_suara, kandidat_set, nama_pemilih, pilihan):
+    pemilih = nama_pemilih.lower()
+    pilihan = pilihan.capitalize()
+
+    if not all(kata.isalpha() for kata in pilihan.split()):
+        print("Pilihan kandidat hanya boleh berisi huruf!")
+        
+    if pemilih in rekap_suara:
+        print(f"'{nama_pemilih}' sudah memberikan suara sebelumnya!")
+
+    elif pilihan not in kandidat_set:
+        print("Kandidat tidak ditemukan. Suara tidak dicatat.")
+
+    else:
+        rekap_suara[pemilih] = pilihan
+        print(
+            f"Suara '{nama_pemilih}' untuk '{pilihan}' "
+            "berhasil dicatat!"
+        )
+
+
+def hitung_suara(rekap_suara, kandidat_set):
+    perolehan = {}
+
+    for kandidat in kandidat_set:
+        perolehan[kandidat] = 0
+
+    for pilihan in rekap_suara.values():
+        perolehan[pilihan] += 1
+
+    return perolehan
+
+
+def tampilkan_hasil(perolehan):
+    print("\n" + "=" * 40)
+    print("HASIL PEMILIHAN KETUA KELAS")
+    print("=" * 40)
+
+    for kandidat, suara in sorted(perolehan.items()):
+        print(f"{kandidat}: {suara} suara")
+
+    total_suara = sum(perolehan.values())
+    print(f"\nTotal suara masuk: {total_suara}")
+
+    suara_tertinggi = max(perolehan.values())
+
+    pemenang = [
+        nama for nama, suara in perolehan.items()
+        if suara == suara_tertinggi
+    ]
+
+    if len(pemenang) > 1:
+        print("Hasil SERI antara:", ", ".join(sorted(pemenang)))
+        print("Perlu dilakukan pemilihan ulang!")
+    else:
+        print(
+            f"PEMENANG: {pemenang[0]} "
+            f"dengan {suara_tertinggi} suara!"
+        )
+
+    print("=" * 40)
+
+print("=" * 40)
+print("SISTEM PEMILIHAN KETUA KELAS")
+print("=" * 40)
+
+# Fase pendaftaran kandidat
+while True:
+    print("\n--- FASE PENDAFTARAN KANDIDAT ---")
+    nama = input(
+        "Masukkan nama kandidat (kosongkan untuk selesai): "
+    ).strip()
+
+    if nama == "":
+        if len(kandidat_set) >= 2:
+            break
+        else:
+            print("Minimal harus ada 2 kandidat!")
+            continue
+
+    daftar_kandidat(kandidat_set, nama)
+
+
+print("\nKandidat terdaftar:", kandidat_set)
+
+# Fase pemungutan suara
+print("\n--- FASE PEMUNGUTAN SUARA ---")
+
+while True:
+    nama_pemilih = input(
+        "\nNama pemilih (kosongkan untuk selesai): "
+    ).strip()
+
+    if nama_pemilih == "":
+        break
+    
+    if not all(kata.isalpha() for kata in nama_pemilih.split()):
+        print("Nama pemilih hanya boleh berisi huruf!")
+        continue
+    
+    if nama_pemilih.lower() in rekap_suara:
+        print(f"'{nama_pemilih}' sudah memberikan suara sebelumnya!")
+        continue
+
+    print("Kandidat yang tersedia:", kandidat_set)
+    pilihan = input("Pilih kandidat: ").strip()
+
+    berikan_suara(
+        rekap_suara,
+        kandidat_set,
+        nama_pemilih,
+        pilihan
+    )
+
+# Menghitung dan menampilkan hasil
+perolehan = hitung_suara(rekap_suara, kandidat_set)
+tampilkan_hasil(perolehan)
